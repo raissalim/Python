@@ -1,0 +1,121 @@
+import matplotlib.pyplot as plt
+
+#1 Crie um grafico de linha que mostre a altura de uma planta ao longo de 5 semanas. use os dados ficos: semanas [1,2,3,4,5] e alturas [3,6,9,12,15] cm 
+
+semanas = [1, 2, 3, 4, 5,7]
+alturas = [3, 6, 9, 12, 15,18] 
+
+plt.plot(semanas, alturas, marker='o', color='purple', linestyle='-', linewidth=2)
+
+plt.title('Crescimento da Planta ao Longo das Semanas')
+plt.xlabel('Semana')
+plt.ylabel('Altura (cm)')
+
+
+plt.show()
+
+#2 Peça ao usuario para digitar o nome de 3 materias e suas notas.Depois crie um grafico de barras com esses dados.
+
+materias = []
+notas = []
+
+for i in range(3):
+    materia = input(f'Digite o nome da matéria {i}: ')
+    nota = float(input(f'Digite a nota para {materia}: '))
+    materias.append(materia)
+    notas.append(nota)
+
+
+plt.bar(materias, notas, color='Purple')
+
+
+plt.title('Notas por Matéria')
+plt.xlabel('Matérias')
+plt.ylabel('Notas')
+plt.ylim(0, 10)  
+
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+
+#crie um grafico de pizza que mostre a preferencia  de transpote das pessoas use os dados fixos onibus 40%, carro 30%, bicicleta 20%,  a pe 10% em python 
+
+modos = ['Ônibus', 'Carro', 'Bicicleta', 'A pé']
+percentuais = [40, 30, 20, 10]
+cores = ['#B56AD9', '#D96A96', '#D96AD9', '#906AD9']
+
+plt.figure(figsize=(6, 6))
+plt.pie(percentuais, labels=modos, autopct='%1.1f%%', startangle=90, colors=cores)
+plt.title('Preferência de Transporte das Pessoas')
+plt.axis('equal')  
+
+plt.show()
+
+#4 Peça ao usuario para digitar os batimentos cardiacos em tres momentos do dia: ao acordar,apos exercicio fisico e apos 10 minutos de descanso
+#crie um grafico de linhas com esses dados.
+
+
+batimentos = []
+momentos = ['Ao acordar', 'Após exercício', 'Após 10 min descanso']
+
+
+bpm_ao_acordar = int(input('Digite os batimentos do dia ao acordar: '))
+bpm_exercicio = int(input('Digite os batimentos ao realizar exercício físico: '))
+bpm_apos_10min = int(input('Digite os batimentos após 10 minutos de descanso: '))
+
+
+batimentos.append(bpm_ao_acordar)
+batimentos.append(bpm_exercicio)
+batimentos.append(bpm_apos_10min)
+
+
+plt.plot(momentos, batimentos, marker='o', color='Purple', linestyle='-', linewidth=2)
+plt.title('Batimentos Cardíacos ao Longo do Dia')
+plt.xlabel('Momento do Dia')
+plt.ylabel('BPM (Batimentos por Minuto)')
+plt.grid(True, linestyle='--', alpha=0.6)
+plt.show()
+
+#5Crie um grafico  de barras  com as vendas de tres sabores  de sorvete: Chocolate (150), Morango (100), Baunilha (130)
+
+sabores=['Chocolate','Morango','Baunilha']
+quant=[150,100,130]
+
+plt.bar(sabores, quant, color='Purple')
+
+plt.title('Sabores de sorvete')
+plt.xlabel('Sabores')
+plt.ylabel('quant')
+
+
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+
+#6 Peça ao usuario para informar quantas horas ele passou no dia com sono, estudando em lazer. Crie um grafico de pizza com esses dados.
+
+quantHoras=[]
+momentos=['Com sono', 'Estudando','Lazer']
+cores = ['#B56AD9', '#D96A96', '#D96AD9', '#906AD9']
+
+
+quantHoras_comsono = int(input('Quantas horas voce ficou com sono?'))
+quantHoras_Estudando= int(input(' Quantas horas  voce ficou Estudando?'))
+quantHoras_Lazer = int(input('Quantas horas voce esteve no lazer? '))
+
+
+quantHoras.append(quantHoras_comsono)
+quantHoras.append(quantHoras_Estudando)
+quantHoras.append(quantHoras_Lazer)
+
+plt.figure(figsize=(6, 6))
+plt.pie(quantHoras, labels=momentos, autopct='%1.1f%%', startangle=90, colors=cores)
+plt.title('Quantidade de  horas por atividade')
+plt.axis('equal')  
+
+plt.show()
+
+
+
+
+
+
+
