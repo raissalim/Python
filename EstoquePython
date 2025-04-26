@@ -1,0 +1,134 @@
+import tkinter as tk
+from tkinter import messagebox
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
+
+class EstoqueApp:
+    def __init__(self, master):
+        self.master = master
+        master.title("🧃 Controle de Estoque Personalizado")
+        master.configure(bg="#f5f5f5")
+
+        # Dicionário do estoque
+        self.estoque = {
+            "Biscoito": 10,
+            "Macarrão": 15,
+            "Morango": 8
+        }
+
+        self.labels = {}
+
+        # ---------- Frame do Título ----------
+        titulo_frame = tk.Frame(master, bg="#f5f5f5")
+        titulo_frame.pack(pady=10)
+        tk.Label(titulo_frame, text="📦 Estoque de Produtos", font=("Arial", 20, "bold"), bg="#f5f5f5", fg="#333").pack()
+
+        # ---------- Frame principal dos produtos ----------
+        produtos_frame = tk.Frame(master, bg="#f5f5f5")
+        produtos_frame.pack(pady=10)
+
+        for idx, produto in enumerate(self.estoque):
+            self.adicionar_linha_produto(produtos_frame, produto, idx)
+
+        # ---------- Frame de adição de produtos ----------
+        add_frame = tk.Frame(master, bg="#f5f5f5")
+        add_frame.pack(pady=10)
+
+        tk.Label(add_frame, text="Novo Produto:", font=("Arial", 12), bg="#f5f5f5").grid(row=0, column=0)
+        self.entry_nome = tk.Entry(add_frame, width=15)
+        self.entry_nome.grid(row=0, column=1, padx=5)
+
+        tk.Label(add_frame, text="Quantidade:", font=("Arial", 12), bg="#f5f5f5").grid(row=0, column=2)
+        self.entry_qtd = tk.Entry(add_frame, width=5)
+        self.entry_qtd.grid(row=0, column=3, padx=5)
+
+        tk.Button(add_frame, text="Adicionar Produto", command=self.adicionar_produto, bg="#4CAF50", fg="white", font=("Arial", 10)).grid(row=0, column=4, padx=10)
+
+        # ---------- Frame de botões finais ----------
+        botoes_frame = tk.Frame(master, bg="#f5f5f5")
+        botoes_frame.pack(pady=15)
+
+        tk.Button(botoes_frame, text="Zerar Estoque", command=self.zerar_estoque, bg="#e67e22", fg="white", width=15).grid(row=0, column=0, padx=10)
+        tk.Button(botoes_frame, text="Gerar Relatório", command=self.gerar_relatorio_pdf, bg="#2980b9", fg="white", width=15).grid(row=0, column=1, padx=10)
+        tk.Button(botoes_frame, text="Sair", command=self.confirmar_sair, bg="#c0392b", fg="white", width=15).grid(row=0, column=2, padx=10)
+
+    def adicionar_linha_produto(self, frame, produto, row):
+        tk.Label(frame, text=produto, font=("Arial", 12), width=15, anchor="w", bg="#f5f5f5").grid(row=row, column=0)
+
+        label_quantidade = tk.Label(frame, text=str(self.estoque[produto]), font=("Arial", 12), bg="#ffffff", width=6, relief="solid")
+        label_quantidade.grid(row=row, column=1)
+        self.labels[produto] = label_quantidade
+
+        tk.Button(frame, text="+", command=lambda p=produto: self.atualizar_estoque(p, 1), bg="#27ae60", fg="white", width=3).grid(row=row, column=2)
+        tk.Button(frame, text="-", command=lambda p=produto: self.atualizar_estoque(p, -1), bg="#e74c3c", fg="white", width=3).grid(row=row, column=3)
+
+    def atualizar_estoque(self, produto, quantidade):
+        nova_quantidade = self.estoque[produto] + quantidade
+        if nova_quantidade < 0:
+            messagebox.showwarning("Aviso", f"Não há {produto} suficiente no estoque.")
+            return
+        self.estoque[produto] = nova_quantidade
+        self.labels[produto].config(text=str(nova_quantidade))
+
+    def adicionar_produto(self):
+        nome = self.entry_nome.get().strip().capitalize()
+        try:
+            qtd = int(self.entry_qtd.get())
+        except ValueError:
+            messagebox.showerror("Erro", "Quantidade deve ser um número.")
+            return
+
+        if not nome or qtd < 0:
+            messagebox.showerror("Erro", "Preencha os campos corretamente.")
+            return
+
+        if nome in self.estoque:
+            self.estoque[nome] += qtd
+        else:
+            self.estoque[nome] = qtd
+            self.adicionar_linha_produto(self.master.winfo_children()[1], nome, len(self.estoque) - 1)
+
+        self.labels[nome].config(text=str(self.estoque[nome]))
+        self.entry_nome.delete(0, tk.END)
+        self.entry_qtd.delete(0, tk.END)
+
+    def zerar_estoque(self):
+        resposta = messagebox.askyesno("Zerar Estoque", "Tem certeza que deseja zerar o estoque?")
+        if resposta:
+            for produto in self.estoque:
+                self.estoque[produto] = 0
+                self.labels[produto].config(text="0")
+
+    def gerar_relatorio_pdf(self):
+        # Definir o caminho do arquivo PDF
+        caminho_pdf = "relatorio_estoque.pdf"
+
+        # Criando o canvas do PDF
+        c = canvas.Canvas(caminho_pdf, pagesize=letter)
+        largura, altura = letter  # Dimensões da página
+
+        # Título do relatório
+        c.setFont("Helvetica-Bold", 16)
+        c.drawString(200, altura - 40, "Relatório de Estoque")
+
+        # Adicionando as informações do estoque no PDF
+        c.setFont("Helvetica", 12)
+        y_position = altura - 80  # Posição inicial para o texto
+
+        for produto, quantidade in self.estoque.items():
+            c.drawString(50, y_position, f"{produto}: {quantidade}")
+            y_position -= 20  # Espaço entre as linhas
+
+        # Finalizando o PDF
+        c.save()
+
+        messagebox.showinfo("Sucesso", f"Relatório gerado com sucesso!\nCaminho: {caminho_pdf}")
+
+    def confirmar_sair(self):
+        if messagebox.askokcancel("Sair", "Deseja realmente sair?"):
+            self.master.quit()
+
+# Iniciar interface
+root = tk.Tk()
+app = EstoqueApp(root)
+root.mainloop()
