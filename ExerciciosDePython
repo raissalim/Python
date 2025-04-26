@@ -113,6 +113,109 @@ plt.axis('equal')
 
 plt.show()
 
+#7Crie um grafico de linha que mostre a velocidade de um carro ao longo do tempo.Use os dados: tempo [0,5,10,15,20] segundos e velocidade[0,20,40,35,50] km/h
+
+velocidade=[0,20,40,35,50]
+temp=[0,5,10,15,20]
+
+plt.plot(velocidade, temp, marker='o', color='purple', linestyle='-', linewidth=2)
+
+plt.title('Velocidade de um carro ao longo do tempo')
+plt.xlabel('Velocidade em km/h')
+plt.ylabel('Tempo por segundo')
+
+plt.show()
+
+#8 Peça ao usuario para digitar quantas bananas , maças e laranjas ele comeu na semana, mostre os dados em um grafico de barras 
+
+frutas=['banana','maça','laranja']
+quantFrutas=[]
+
+quant_Bananas= int(input('Quantas bananas  voce comeu essa semana?'))
+quant_Maças= int(input(' Quantas maças voce comeu essa semana?'))
+quant_Laranjas = int(input('Quantas laranjas voce comeu essa semana? '))
+
+quantFrutas.append(quant_Bananas)
+quantFrutas.append(quant_Maças)
+quantFrutas.append(quant_Laranjas)
+
+plt.bar(frutas, quantFrutas, color='Purple')
+
+plt.title('Quantas Bananas,Maças e Laranjas voce comeu essa semana')
+plt.xlabel('Frutas')
+plt.xlabel('Quantidade de Frutas')
+
+
+
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.show()
+
+#9Peça ao usuario para digitar quantas horas ele usa por dia as seguintes redes sociais: instagram,youtube, tik tok whatssap e outros. Crie um grafico de pizza com essas informações.
+
+quantPdia=[]
+redesSociais=['Tik tok', 'Instagram','Youtube','Whatssap','Outros']
+cores = ['#B56AD9', '#D96A96', '#D96AD9', '#906AD9']
+
+quantPdia_Tiktok= int(input('Quantas horas por dia voce usa tik tok?'))
+quantPdia_Whatssap= int(input(' Quantas horas por dia voce usa Whatssap?'))
+quantPdia_Youtube = int(input('Quantas horas por dia voce usa Youtube? '))
+quantPdia_Instagram = int(input('Quantas horas por dia voce usa  Instagram? '))
+quanPdia_Outros = int(input('Quantas horas por dia voce usa outros? '))
+
+quantPdia.append(quantPdia_Tiktok)
+quantPdia.append(quantPdia_Whatssap)
+quantPdia.append(quantPdia_Youtube)
+quantPdia.append(quantPdia_Instagram)
+quantPdia.append(quanPdia_Outros)
+
+plt.figure(figsize=(9, 9))
+plt.pie(quantPdia, labels=redesSociais, autopct='%1.1f%%', startangle=90, colors=cores)
+plt.title('Quantidade de horas que passa nas redes sociais')
+plt.axis('equal')  
+
+plt.show()
+
+#10Peça ao usuario para digitar seu nivel de energia de [0 a 10] pela manhã, á tare e a noite.Crie um grafico de linha com esses dados.
+
+
+# Momentos do dia
+momentosDia = ['manhã', 'tarde', 'noite']
+
+# Coletando os níveis de energia do usuário
+nivelEnergia_manha = int(input('Qual seu nível de energia de 0 a 10 pela manhã? '))
+nivelEnergia_tarde = int(input('Qual seu nível de energia de 0 a 10 pela tarde? '))
+nivelEnergia_noite = int(input('Qual seu nível de energia de 0 a 10 à noite? '))
+
+# Lista com os valores digitados
+nivelEnergia = [nivelEnergia_manha, nivelEnergia_tarde, nivelEnergia_noite]
+
+# Criando o gráfico de linha
+plt.plot(momentosDia, nivelEnergia, marker='o', color='purple', linestyle='-', linewidth=2)
+
+
+plt.title('Nível de Energia ao Longo do Dia')
+plt.xlabel('Momento do Dia')
+plt.ylabel('Nível de Energia (0 a 10)')
+plt.ylim(0, 10)  
+
+plt.grid(True, linestyle='--', alpha=0.5)
+plt.show()
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
